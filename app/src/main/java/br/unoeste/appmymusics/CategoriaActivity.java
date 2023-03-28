@@ -46,6 +46,7 @@ public class CategoriaActivity extends AppCompatActivity {
         btConfirmar=findViewById(R.id.btConfirmar);
         etGenero=findViewById(R.id.etGenero);
 
+
         fabNovaCategoria=findViewById(R.id.fabNovaCategoria);
         generos = new GeneroDAL(this).get("");
         ArrayAdapter<Genero> adapter=new ArrayAdapter<Genero>(this,
