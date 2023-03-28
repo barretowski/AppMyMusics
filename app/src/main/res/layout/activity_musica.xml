@@ -5,7 +5,7 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#EAE4E4"
+    android:backgroundTint="#9284AA"
     android:foregroundTint="#F8F2F2"
     tools:context=".MusicaActivity">
 

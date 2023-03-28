@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#9284AA"
     tools:context=".CategoriaActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,6 +25,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="1dp"
+        android:background="#9284AA"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +37,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="#FFE0B2"
+        android:background="#614D85"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -47,7 +49,9 @@
             android:ems="10"
             android:hint="Informe o  nome de um gênero musical"
             android:inputType="textPersonName"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#F4EFEF"
+            android:textColorHint="#FBF5F5" />
 
         <Button
             android:id="@+id/btConfirmar"
