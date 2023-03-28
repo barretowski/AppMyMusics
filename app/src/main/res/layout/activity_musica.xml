@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#EAE4E4"
+    android:foregroundTint="#F8F2F2"
+    tools:context=".MusicaActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNovaMusica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:clickable="true"
+        app:backgroundTint="#35C60D"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutMusica"
+        app:layout_constraintEnd_toEndOf="@+id/lvMusica"
+        app:srcCompat="@drawable/baseline_add_circle_outline_24" />
+
+    <ListView
+        android:id="@+id/lvMusica"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="#9284AA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutMusica"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="#614D85"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="1dp">
+
+        <EditText
+            android:id="@+id/etTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Título da música"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#EFE9E9" />
+
+        <Spinner
+            android:id="@+id/spGenero"
+            style="@android:style/Widget.Material.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#FAF4F4"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/etInterprete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Interprete"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#EFE9E9" />
+
+        <EditText
+            android:id="@+id/etDuracao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Duração (em minutos)"
+            android:inputType="numberDecimal"
+            android:textColor="#F1ECEC"
+            android:textColorHint="#F3EFEF" />
+
+        <EditText
+            android:id="@+id/etAno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="Ano"
+            android:inputType="numberDecimal"
+            android:textColor="#F1ECEC"
+            android:textColorHint="#F3EFEF" />
+
+        <Button
+            android:id="@+id/btConfirmarMusica"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Confirmar" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

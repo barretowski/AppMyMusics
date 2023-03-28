@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.itmusica:
+                Intent intent2 = new Intent(this, MusicaActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.itcategoria:
                 Intent intent = new Intent(this,CategoriaActivity.class);
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.itfechar:
                 finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

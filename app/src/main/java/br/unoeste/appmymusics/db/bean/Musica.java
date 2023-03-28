@@ -8,7 +8,7 @@ public class Musica {
     private Genero genero;
     private double duracao;
 
-    public Musica() {
+    public Musica(String s) {
         this(0,0,"","",null,0);
     }
 

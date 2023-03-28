@@ -1,8 +1,10 @@
 package br.unoeste.appmymusics;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,8 @@ public class CategoriaActivity extends AppCompatActivity {
     private ListView lvCategoria;
     private Button btConfirmar;
     private EditText etGenero;
+    private AlertDialog alerta;
+    private ArrayList<Genero> generos;
     private LinearLayout linearLayout;
     private FloatingActionButton fabNovaCategoria;
     @Override
@@ -38,12 +42,15 @@ public class CategoriaActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayout);
         btConfirmar=findViewById(R.id.btConfirmar);
         etGenero=findViewById(R.id.etGenero);
+
         fabNovaCategoria=findViewById(R.id.fabNovaCategoria);
-        ArrayList<Genero> generos=new GeneroDAL(this).get("");
+        generos = new GeneroDAL(this).get("");
         ArrayAdapter<Genero> adapter=new ArrayAdapter<Genero>(this,
                 android.R.layout.simple_list_item_1,generos);
+
         lvCategoria.setAdapter(adapter);
         linearLayout.setVisibility(View.GONE);
+
         btConfirmar.setOnClickListener(e->{
             cadastrarGenero();
             linearLayout.setVisibility(View.GONE);
@@ -56,30 +63,70 @@ public class CategoriaActivity extends AppCompatActivity {
         lvCategoria.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Snackbar sbar;
+                /*Snackbar sbar;
                 sbar=Snackbar.make(view,"Qual sua ação?",Snackbar.LENGTH_LONG);
                 sbar.show();
                 sbar.setAction("Apagar ?", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // apagar o item do listview
+                       excluirGenero();
                     }
-                });
-                return true;
+                });*/
+                dialogAlert(i);
+                return false;
             }
         });
+
+    }
+    private void dialogAlert(int i) //Cria o gerador do AlertDialog
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confrimar exclusão"); //define o titulo
+        builder.setMessage("Deseja excluir essa categoria?"); //define a mensagem
+        //define um botão como positivo
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface arg0, int arg1) {
+                Genero genero = generos.get(i);
+                if(genero.getId() > 0)
+                    excluirGenero(genero);
+            }
+        });
+        //define um botão como negativo.
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                // código a ser executado
+            }
+        });
+        alerta = builder.create(); //cria o AlertDialog
+        alerta.show(); //Exibe
     }
 
+    private void excluirGenero(Genero genero)
+    {
+        GeneroDAL dal = new GeneroDAL(this);
+        dal.apagar(genero.getId());
+        atualizarTela();
+    }
     private void cadastrarGenero() {
 
         GeneroDAL dal = new GeneroDAL(this);
         Genero genero=new Genero(etGenero.getText().toString());
         dal.salvar(genero);
-        ArrayList<Genero> generos=new GeneroDAL(this).get("");
+
+        generos=new GeneroDAL(this).get("");
+
+        atualizarTela();
+    }
+    public boolean atualizarTela()
+    {
+        this.generos=new GeneroDAL(this).get("");
         ArrayAdapter<Genero> adapter=new ArrayAdapter<Genero>(this,
                 android.R.layout.simple_list_item_1,generos);
         lvCategoria.setAdapter(adapter);
+
+        return true;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu2,menu);
