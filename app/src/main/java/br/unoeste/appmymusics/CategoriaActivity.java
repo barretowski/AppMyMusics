@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 import br.unoeste.appmymusics.db.bean.Genero;
 import br.unoeste.appmymusics.db.dal.GeneroDAL;
+import br.unoeste.appmymusics.db.dal.MusicaDAL;
 
 public class CategoriaActivity extends AppCompatActivity {
     private ListView lvCategoria;
@@ -32,6 +34,7 @@ public class CategoriaActivity extends AppCompatActivity {
     private EditText etGenero;
     private AlertDialog alerta;
     private ArrayList<Genero> generos;
+    private Genero genero;
     private LinearLayout linearLayout;
     private FloatingActionButton fabNovaCategoria;
     @Override
@@ -52,7 +55,10 @@ public class CategoriaActivity extends AppCompatActivity {
         linearLayout.setVisibility(View.GONE);
 
         btConfirmar.setOnClickListener(e->{
-            cadastrarGenero();
+            if(genero==null)
+                cadastrarGenero();
+            else
+                editarGenero();
             linearLayout.setVisibility(View.GONE);
         });
         fabNovaCategoria.setOnClickListener(e->{
@@ -63,17 +69,24 @@ public class CategoriaActivity extends AppCompatActivity {
         lvCategoria.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                /*Snackbar sbar;
-                sbar=Snackbar.make(view,"Qual sua ação?",Snackbar.LENGTH_LONG);
-                sbar.show();
-                sbar.setAction("Apagar ?", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                       excluirGenero();
-                    }
-                });*/
                 dialogAlert(i);
-                return false;
+                return true;
+            }
+        });
+        lvCategoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final long DELAY = 300;//ajusta o atraso para que ao chamar um clique longo, não acione o click simples
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        linearLayout.setVisibility(View.VISIBLE);
+                        genero = generos.get(i);
+                        etGenero.setText(genero.getNome());
+                    }
+                }, DELAY);
+
+
             }
         });
 
@@ -86,7 +99,7 @@ public class CategoriaActivity extends AppCompatActivity {
         //define um botão como positivo
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface arg0, int arg1) {
-                Genero genero = generos.get(i);
+                genero = generos.get(i);
                 if(genero.getId() > 0)
                     excluirGenero(genero);
             }
@@ -107,10 +120,17 @@ public class CategoriaActivity extends AppCompatActivity {
         dal.apagar(genero.getId());
         atualizarTela();
     }
+    private void editarGenero()
+    {
+        GeneroDAL dal = new GeneroDAL(this);
+        genero.setNome(etGenero.getText().toString());
+        dal.alterar(genero);
+        atualizarTela();
+    }
     private void cadastrarGenero() {
 
         GeneroDAL dal = new GeneroDAL(this);
-        Genero genero=new Genero(etGenero.getText().toString());
+        genero =new Genero(etGenero.getText().toString());
         dal.salvar(genero);
 
         generos=new GeneroDAL(this).get("");
@@ -123,7 +143,8 @@ public class CategoriaActivity extends AppCompatActivity {
         ArrayAdapter<Genero> adapter=new ArrayAdapter<Genero>(this,
                 android.R.layout.simple_list_item_1,generos);
         lvCategoria.setAdapter(adapter);
-
+        genero = null;
+        etGenero.setText("");
         return true;
     }
 

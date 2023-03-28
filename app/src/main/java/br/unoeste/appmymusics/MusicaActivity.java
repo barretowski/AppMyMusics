@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -43,7 +45,7 @@ public class MusicaActivity extends AppCompatActivity{
 
     private Genero generoSelect;
     private Spinner spGenero;
-    ArrayAdapter<Genero> adapterGeneros;
+    private ArrayAdapter<Genero> adapterGeneros;
 
     private AlertDialog alerta;
     private ArrayList<Musica> musicas;
@@ -84,29 +86,45 @@ public class MusicaActivity extends AppCompatActivity{
 
         btConfirmar.setOnClickListener(
                 e->{
-                    cadastrarMusica();
+                    //verifica se musica já existe
+                    if(musica==null)
+                        cadastrarMusica();
+                    else
+                        atualizarMusica();
+
                     linearLayoutMusica.setVisibility(View.GONE);
+                    musica = null;
                 }
         );
-
-        lvMusica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                linearLayoutMusica.setVisibility(View.VISIBLE);
-                musica = musicas.get(i);
-
-                etTitulo.setText(musica.getTitulo().toString());
-                etAno.setText(musica.getAno() + "");
-                etInterprete.setText(musica.getInterprete());
-                etDuracao.setText(musica.getDuracao() + "");
-
-            }
-        });
         lvMusica.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 dialogAlert(i);
-                return false;
+                return true;
+            }
+        });
+        lvMusica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final long DELAY = 300;//ajusta o atraso para que ao chamar um clique longo, não acione o click simples
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        generoSelect = new Genero();
+                        linearLayoutMusica.setVisibility(View.VISIBLE);
+                        musica = musicas.get(i);
+
+                        etTitulo.setText(musica.getTitulo().toString());
+                        etAno.setText(musica.getAno() + "");
+                        etInterprete.setText(musica.getInterprete());
+                        etDuracao.setText(musica.getDuracao() + "");
+                        generoSelect = musica.getGenero();
+                        int pos = adapterGeneros.getPosition(generoSelect);
+                        spGenero.setSelection(pos);
+                    }
+                }, DELAY);
+
+
             }
         });
     }
@@ -115,7 +133,7 @@ public class MusicaActivity extends AppCompatActivity{
         ArrayList<Genero> generos = new GeneroDAL(this).get("");
         adapterGeneros = new ArrayAdapter<Genero>(this,
             android.R.layout.simple_list_item_1,generos);
-        adapterGeneros.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapterGeneros.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero = findViewById(R.id.spGenero);
         spGenero.setAdapter(adapterGeneros);
 
@@ -149,6 +167,17 @@ public class MusicaActivity extends AppCompatActivity{
         musicas = new MusicaDAL(this).get("");
         atualizarTela();
     }
+    private void atualizarMusica()
+    {
+        musica.setGenero(generoSelect);
+        musica.setInterprete(etInterprete.getText().toString());
+        musica.setTitulo(etTitulo.getText().toString());
+        musica.setAno(Integer.parseInt(etAno.getText().toString()));
+        musica.setDuracao(Double.parseDouble(etDuracao.getText().toString()));
+        MusicaDAL dal = new MusicaDAL(this);
+        dal.alterar(musica);
+        atualizarTela();
+    }
     private void excluirMusica(Musica musica)
     {
         MusicaDAL dal = new MusicaDAL(this);
@@ -161,6 +190,17 @@ public class MusicaActivity extends AppCompatActivity{
         ArrayAdapter<Musica> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,musicas);
         lvMusica.setAdapter(adapter);
+        musica = null;
+        generoSelect = null;
+
+        etInterprete.setText("");
+        etInterprete.requestFocus();
+        etTitulo.setText("");
+        etTitulo.requestFocus();
+        etAno.setText("");
+        etAno.requestFocus();
+        etDuracao.setText("");
+        etDuracao.requestFocus();
 
         return true;
     }

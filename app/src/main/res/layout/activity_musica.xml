@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#9284AA"
-    android:foregroundTint="#F8F2F2"
+    android:foregroundTint="#9284AA"
     tools:context=".MusicaActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,19 +21,52 @@
         app:layout_constraintEnd_toEndOf="@+id/lvMusica"
         app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="414dp"
+        android:layout_height="48dp"
+        android:background="#9284AA"
+        android:gravity="center"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteY="-3dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="52dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_action_music" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:text="Músicas"
+            android:textAlignment="center"
+            android:textColor="#FBFAFA"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/ic_action_music" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/lvMusica"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="#9284AA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+    </ListView>
 
     <LinearLayout
         android:id="@+id/linearLayoutMusica"
@@ -112,4 +145,5 @@
             android:text="Confirmar" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
