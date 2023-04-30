@@ -10,9 +10,20 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:gravity="center"
             app:layout_constraintHorizontal_bias="0.0"/>
+
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/btTraduzir" tools:layout_editor_absoluteY="667dp"
-            tools:layout_editor_absoluteX="158dp" android:text="Tradução" android:backgroundTint="#311A5A"
+        android:id="@+id/btTraduzir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#311A5A"
+        android:text="Tradução"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLetra"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

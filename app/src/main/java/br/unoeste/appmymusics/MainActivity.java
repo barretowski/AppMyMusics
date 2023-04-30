@@ -39,11 +39,12 @@ public class MainActivity extends AppCompatActivity {
         lvPrincipal = findViewById(R.id.lvPrincipal);
         ArrayList<Genero> generos = new GeneroDAL(this).get("");
         adapterGeneros = new ArrayAdapter<Genero>(this, R.layout.list_item, generos);
+
         this.musicas=new MusicaDAL(this).get("");
         MusicaAdapter adapter = new MusicaAdapter(this, R.layout.item,musicas);
         lvPrincipal.setAdapter(adapter);
 
-        searchList("");
+        //searchList("");
     }
     public void searchList(String query)
     {

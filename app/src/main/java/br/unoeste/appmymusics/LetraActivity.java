@@ -26,7 +26,6 @@ public class LetraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_letra);
         tvLetra = findViewById(R.id.tvLetra);
-
         btTraduzir = findViewById(R.id.btTraduzir);
 
         Intent intent = getIntent();
