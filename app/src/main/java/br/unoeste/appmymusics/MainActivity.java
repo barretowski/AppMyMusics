@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvPrincipal;
     private MusicaDAL dal;
     private Musica musica;
+    private ArrayAdapter<Genero> adapterGeneros;
     private ArrayList<Musica> musicas;
     private ArrayList<Musica> musicasEncontradas;
     @SuppressLint("MissingInflatedId")
@@ -33,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         lvPrincipal = findViewById(R.id.lvPrincipal);
+        ArrayList<Genero> generos = new GeneroDAL(this).get("");
+        adapterGeneros = new ArrayAdapter<Genero>(this, R.layout.list_item, generos);
         this.musicas=new MusicaDAL(this).get("");
+        MusicaAdapter adapter = new MusicaAdapter(this, R.layout.item,musicas);
+        lvPrincipal.setAdapter(adapter);
+
+        searchList("");
     }
     public void searchList(String query)
     {
